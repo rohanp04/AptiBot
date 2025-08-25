@@ -136,7 +136,7 @@ def get_quiz_statistics() -> Dict[str, Any]:
         return {}
     
     total_quizzes = len(st.session_state.quiz_history)
-    total_questions_answered = sum(h['results']['score'].split('/')[1] for h in st.session_state.quiz_history if '/' in h['results']['score'])
+    total_questions_answered = sum(int(h['results']['score'].split('/')[1]) for h in st.session_state.quiz_history if '/' in h['results']['score'])
     total_correct = sum(int(h['results']['score'].split('/')[0]) for h in st.session_state.quiz_history if '/' in h['results']['score'])
     
     avg_percentage = sum(h['results']['percentage'] for h in st.session_state.quiz_history) / total_quizzes
@@ -148,8 +148,8 @@ def get_quiz_statistics() -> Dict[str, Any]:
     
     return {
         'total_quizzes': total_quizzes,
-        'total_questions_answered': int(total_questions_answered) if total_questions_answered else 0,
-        'total_correct': int(total_correct) if total_correct else 0,
+        'total_questions_answered': total_questions_answered,
+        'total_correct': total_correct,
         'average_percentage': round(avg_percentage, 1),
         'best_score': round(best_score, 1),
         'recent_trend': recent_trend
@@ -470,15 +470,6 @@ st.markdown("*Advanced RAG-powered aptitude test preparation with quiz history a
 
 # Enhanced sidebar with quiz statistics
 with st.sidebar:
-    st.header("⚙️ Configuration")
-    
-    # Check for Groq API key
-    if "GROQ_API_KEY" not in os.environ:
-        st.error("⚠️ GROQ_API_KEY not found in environment variables")
-        st.info("Please set your Groq API key as an environment variable")
-    else:
-        st.success("✅ Groq API key configured")
-    
     # Quiz statistics
     st.divider()
     st.header("📊 Session Statistics")
@@ -729,15 +720,6 @@ with tab2:
                     st.session_state.generated_questions = questions
                     
                     st.success(f"✅ Generated {len(questions)} questions successfully!")
-                    
-                    # Preview questions
-                    with st.expander("👀 Preview Generated Questions"):
-                        for i, q in enumerate(questions[:3]):  # Show first 3 questions
-                            st.markdown(f"**Question {i+1}:** {q['question']}")
-                            for option, text in q['options'].items():
-                                st.write(f"{option}) {text}")
-                            st.success(f"Correct Answer: {q['correct_answer']}")
-                            st.divider()
                     
                     # Download option
                     questions_json = json.dumps(questions, indent=2)
