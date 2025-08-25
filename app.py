@@ -664,7 +664,7 @@ with tab2:
             help="Specify the aptitude topic for question generation"
         )
         
-        num_questions = st.slider("🔢 Number of Questions", min_value=1, max_value=20, value=5)
+        num_questions = st.slider("🔢 Number of Questions", min_value=1, max_value=30, value=5)
         
         use_rag = st.checkbox("🔍 Use uploaded documents for context", value=True)
         
