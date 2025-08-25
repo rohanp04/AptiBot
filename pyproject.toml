@@ -1,0 +1,19 @@
+[project]
+name = "aptibot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "faiss-cpu>=1.12.0",
+    "langchain>=0.3.27",
+    "langchain-groq>=0.3.7",
+    "numpy>=2.2.6",
+    "pandas>=2.3.2",
+    "pymupdf>=1.26.3",
+    "pypdf2>=3.0.1",
+    "python-docx>=1.2.0",
+    "python-dotenv>=1.1.1",
+    "sentence-transformers>=5.1.0",
+    "streamlit>=1.48.1",
+]
